@@ -1,11 +1,11 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'ark_config/version'
+require "ark_tool/version"
 
 Gem::Specification.new do |spec|
-  spec.name          = "ArkConfig"
-  spec.version       = ArkConfig::VERSION
+  spec.name          = "ArkTool"
+  spec.version       = ArkTool::VERSION
   spec.authors       = ["Donovan Young"]
   spec.email         = ["dyoung522@gmail.com"]
 

@@ -1,4 +1,0 @@
-#!/usr/bin/env ruby
-require "ark_config"
-
-ArkConfig::OptParse.parse(ARGV)

@@ -1,5 +1,5 @@
 require "bundler/setup"
-require "ark_config"
+require "ark_tool"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

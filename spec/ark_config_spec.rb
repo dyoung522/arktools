@@ -1,13 +1,13 @@
 require "spec_helper"
 
-module ArkConfig
-  RSpec.describe ArkConfig do
+module ArkTool
+  RSpec.describe ArkTool do
     it "has a version number" do
-      expect(ArkConfig::VERSION).not_to be nil
+      expect(ArkTool::VERSION).not_to be nil
     end
 
     it "has a program name" do
-      expect(ArkConfig::PROGRAM).not_to be nil
+      expect(ArkTool::PROGRAM).not_to be nil
     end
 
     describe OptParse do

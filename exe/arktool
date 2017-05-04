@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require "ark_tool"
+
+ArkTool::OptParse.parse(ARGV)

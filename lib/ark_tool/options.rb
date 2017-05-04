@@ -1,12 +1,12 @@
 require "optparse"
 require "config"
 
-module ArkConfig
+module ArkTool
   class OptParse
     attr_reader :parser, :version
 
     def initialize(opts)
-      program_path  = ArkConfig::PROGRAM
+      program_path  = ArkTool::PROGRAM
       program_files = []
 
       %W(~/.#{program_path} ./.#{program_path} ./#{program_path}.conf ./#{program_path}.rc).each do |path|
@@ -26,8 +26,8 @@ module ArkConfig
 
       @parser  ||= common_options opts[:testing]
       @version ||= sprintf "%s v%s (%s v%s)\n",
-                           opts[:name] || ArkConfig::PROGRAM, opts[:version] || ArkConfig::VERSION,
-                           "ArkConfig", ArkConfig::VERSION
+                           opts[:name] || ArkTool::PROGRAM, opts[:version] || ArkTool::VERSION,
+                           "ArkTool", ArkTool::VERSION
 
       Options.debug = Options.verbose >= 5
     end
@@ -50,10 +50,10 @@ module ArkConfig
     def self.parse(args, unit_testing=false)
       # The Options specified on the command line will be collected in *Options*.
       # We set default values here.
-      opt_parse = ArkConfig::OptParse.new({ name:     PROGRAM,
-                                            version:  VERSION,
-                                            defaults: default_options,
-                                            testing:  unit_testing })
+      opt_parse = ArkTool::OptParse.new({ name:     PROGRAM,
+                                          version:  VERSION,
+                                          defaults: default_options,
+                                          testing:  unit_testing })
 
       opt_parse.default_options(Options.commands, {
         diff:       "git diff --name-only develop src/js | egrep \".js$\"",
@@ -65,7 +65,7 @@ module ArkConfig
 
       parser = opt_parse.parser
 
-      parser.banner = "Usage: #{ArkConfig::PROGRAM} [COMMAND] [OPTIONS]"
+      parser.banner = "Usage: #{ArkTool::PROGRAM} [COMMAND] [OPTIONS]"
       parser.banner += "\n\nWhere [PATTERN] is any full or partial filename."
       parser.banner += " All tests matching this filename pattern will be run."
 
@@ -177,4 +177,4 @@ module ArkConfig
     end
 
   end # class OptParse
-end # module ArkConfig
+end # module ArkTool
