@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require "ark_config"
+
+puts "Hello World"
+puts "Ark Config v#{ArkConfig::VERSION}"
