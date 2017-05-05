@@ -1,7 +1,3 @@
 require "ark_tool/version"
-require "ark_tool/options"
-require "mods/ark_mod_list"
+require "ark_tool/commands"
 
-module ArkTool
-  # Your code goes here...
-end
