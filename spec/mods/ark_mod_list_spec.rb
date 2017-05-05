@@ -31,5 +31,10 @@ module ArkTools
       expect(modlist.mods[0].id).to eq("12345")
       expect(modlist.mods[1].id).to eq("56789")
     end
+
+    it "responds to #csv" do
+      expect(modlist).to respond_to(:csv)
+      expect(modlist.csv).to eq("12345,56789")
+    end
   end
 end

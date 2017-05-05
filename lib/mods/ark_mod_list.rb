@@ -20,5 +20,9 @@ module ArkTools
     def each
       @mods.each { |mod| yield mod }
     end
+
+    def csv
+      @mods.map(&:id).join(",")
+    end
   end
 end
