@@ -20,11 +20,11 @@ suitable to copy/paste into Game.ini
     option :growth, :type => :numeric, :banner => "GROWTH_RATE"
 
     def player
-      puts Generate::GameLevels.new(options[:level].to_i,
-                                    {
-                                      max_exp:     options[:exp].to_i,
-                                      growth_rate: options[:growth].to_f
-                                    }).player_levels
+      puts Generate::ArkGameLevels.new(options[:level].to_i,
+                                       {
+                                         max_exp:     options[:exp].to_i,
+                                         growth_rate: options[:growth].to_f
+                                       }).player_levels
     end
 
     desc "dino", "Generates custom dino levels Game.ini line"
@@ -44,45 +44,57 @@ suitable to copy/paste into Game.ini
     option :growth, :type => :numeric, :banner => "GROWTH_RATE"
 
     def dino
-      puts Generate::GameLevels.new(options[:level].to_i,
-                                    {
-                                      max_exp:     options[:exp].to_i,
-                                      growth_rate: options[:growth].to_f
-                                    }).dino_levels
+      puts Generate::ArkGameLevels.new(options[:level].to_i,
+                                       {
+                                         max_exp:     options[:exp].to_i,
+                                         growth_rate: options[:growth].to_f
+                                       }).dino_levels
     end
   end # class Generate
 
-  class Commands < Thor
-    desc "ActiveMods FILE", "Creates an ActiveMods= line suitable for GameUserSettings.ini"
+  class Mods < Thor
+    desc "Active", "Creates an ActiveMods= line suitable for GameUserSettings.ini"
 
-    def activemods(file)
+    option :file, required: true
+
+    def activemods(file = options[:file])
       puts "ActiveMods=#{ArkModList.new(file).csv}"
     end
 
-    desc "Configs FILE", "Generates both ActiveMods and ModInstaller"
+    desc "Configs", "Generates both ActiveMods and ModInstaller"
 
-    def configs(file)
-      invoke :activemods, file
+    option :file, required: true
+
+    def configs
+      invoke :activemods
       puts
-      invoke :modinstaller, file
+      invoke :modinstaller
     end
 
-    desc "ListMods FILE", "Displays a list of active mods from the provided input file"
+    desc "List", "Displays a list of active mods from the provided input file"
 
-    def listmods(file)
-      ArkModList.new(file).each { |mod| printf "%-25s %s\n", mod.description, mod.id }
+    option :file, required: true
+
+    def list
+      ArkModList.new(options[:file]).each { |mod| printf "%-25s %s\n", mod.description, mod.id }
     end
 
-    desc "ModInstaller FILE", "Creates a [ModInstaller] block suitable for Game.ini"
+    desc "ModInstaller", "Creates a [ModInstaller] block suitable for Game.ini"
 
-    def modinstaller(file)
+    option :file, required: true
+
+    def modinstaller(file = options[:file])
       puts "[ModInstaller]"
       ArkModList.new(file).each { |mod| printf "ModIds=%s ; %s\n", mod.id, mod.description }
     end
+  end # class Mods
 
-    desc "levels", "Generates custom player/dino levels for Game.ini"
+  class Commands < Thor
+    desc "mods", "Commands related to Mod Settings"
+    subcommand "mods", Mods
+
+    desc "levels", "Commands related to custom player/dino levels for Game.ini"
     subcommand "levels", Levels
-
   end # class Commands
 end # module ArkTools
 

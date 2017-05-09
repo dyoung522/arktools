@@ -1,6 +1,6 @@
 module ArkTools
   module Generate
-    class GameLevels
+    class ArkGameLevels
       def initialize(max_level, options = {})
         @max_level   = max_level
         @max_exp     = options[:max_exp] == 0 ? max_level * 10000 : options[:max_exp]
