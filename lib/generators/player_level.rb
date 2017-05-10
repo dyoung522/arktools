@@ -3,7 +3,7 @@ module ArkTools
     class ArkGameLevels
       def initialize(max_level, options = {})
         @max_level   = max_level
-        @max_exp     = options[:max_exp] == 0 ? max_level * 10000 : options[:max_exp]
+        @max_exp     = options[:max_exp] == 0 ? @max_level * 10000 : options[:max_exp]
         @growth_rate = options[:growth_rate] == 0 ? Math.log(@max_exp, @max_level) : options[:growth_rate]
       end
 
@@ -14,7 +14,7 @@ module ArkTools
       def _make_level_overrides
         exp_config = []
 
-        (0..@max_level).each { |lvl|
+        (0..(@max_level-1)).each { |lvl|
           exp_config << "ExperiencePointsForLevel[#{lvl}]=#{_calc_exp lvl}"
         }
 
@@ -23,7 +23,7 @@ module ArkTools
 
       def _make_levels(type)
         type           = type.to_s.capitalize
-        max_experience = _calc_exp@max_level
+        max_experience = (_calc_exp @max_level - 1) + 1
 
         raise RuntimeError, "type must be either 'Player' or 'Dino'" unless ["Player", "Dino"].include?(type)
 
@@ -32,11 +32,11 @@ module ArkTools
       end
 
       def player_levels
-        _make_levels"Player"
+        _make_levels "Player"
       end
 
       def dino_levels
-        _make_levels"Dino"
+        _make_levels "Dino"
       end
     end
   end
