@@ -1,28 +1,46 @@
-# ArkConfig
+# ArkTools
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/ArkConfig`. To experiment with that code, run `bin/console` for an interactive prompt.
+Welcome to ArkTools!
 
-TODO: Delete this and the text above, and describe your gem
+Currently this provides a command line tool named `arktool` which will create customized Game.ini and GameUserSettings.ini lines for you.
 
 ## Installation
 
-Add this line to your application's Gemfile:
-
-```ruby
-gem 'ArkTool'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
+Install the gem from rubygems as you normally would. Once installed, you'll have access to the command line tool named `arktool`.
 
     $ gem install ArkConfig
 
 ## Usage
 
-TODO: Write usage instructions here
+`arktool help` should get you started. Subcommands also have their own help, so `arktool mods help` will give you information about the `mods` subcommand.
+
+## Commands
+
+### Mods
+
+These commands take an input file (via --file) in the following format:
+
+    MODID Description
+
+Each mod should be separated on it's own line and the order of the lines determine the load order (top to bottom)
+
+e.g.  
+
+    776464863 Ragnarok
+    813220452 Ragnarok Lore
+
+### Levels
+
+These commands will create customized level lists for your Game.ini. Please see `arktools levels help` for additional information.
+
+    --level  : the Maximum level for your server (required)
+    --exp    : The total experience to obtain max level (optional)
+    --growth : a customized logarithmic "growth rate" (very optional -- if you don't know what this means, you probably don't need it)
+
+## Future Plans
+
+- Web based interface (for the non-ruby world)
+- Other configuration options / commands as requested by the community
 
 ## Development
 
@@ -32,5 +50,5 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/Donovan Young/ArkConfig.
+Bug reports and pull requests are welcome on [GitHub](https://github.com/dyoung522/arktools).
 
