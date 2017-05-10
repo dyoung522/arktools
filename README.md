@@ -31,7 +31,7 @@ e.g.
 
 ### Levels
 
-These commands will create customized level lists for your Game.ini. Please see `arktools levels help` for additional information.
+These commands will create customized level lists for your Game.ini. Please see `arktool levels help` for additional information.
 
     --level  : the Maximum level for your server (required)
     --exp    : The total experience to obtain max level (optional)
