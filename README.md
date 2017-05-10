@@ -8,7 +8,7 @@ Currently this provides a command line tool named `arktool` which will create cu
 
 Install the gem from rubygems as you normally would. Once installed, you'll have access to the command line tool named `arktool`.
 
-    $ gem install ArkConfig
+    $ gem install ArkTools
 
 ## Usage
 
