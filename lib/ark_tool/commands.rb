@@ -1,5 +1,3 @@
-require "mods/ark_mod_list"
-require "generators/player_level"
 require "thor"
 
 module ArkTools

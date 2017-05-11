@@ -1,7 +1,7 @@
 require "spec_helper"
 
 module ArkTools
-  RSpec.describe ArkTools do
+  describe ArkTools do
     it "has a version number" do
       expect(ArkTools::VERSION).not_to be nil
     end
