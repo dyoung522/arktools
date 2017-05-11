@@ -1,5 +1,7 @@
 # ArkTools
 
+*Copyright 2017 Donovan C. Young*
+
 Welcome to ArkTools!
 
 Currently this provides a command line tool named `arktool` which will create customized Game.ini and GameUserSettings.ini lines for you.
@@ -52,3 +54,8 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 Bug reports and pull requests are welcome on [GitHub](https://github.com/dyoung522/arktools).
 
+## License
+
+This software is licensed under the MIT License, basically stating you can use
+it however you feel fit as long as you credit the original author (me). Please see
+the LICENSE file for additional information.
