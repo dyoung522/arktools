@@ -17,7 +17,10 @@ module ArkTools
         puts "Writing output to #{gl.configs.game.filename}" if opts[:write]
       end
 
-      gl.send(cmd)
+      doc = gl.send(cmd)
+      doc.save(gl.configs.game.filename) if opts[:write]
+
+      doc.to_ini
     end
 
     class Commands < Thor
@@ -37,7 +40,8 @@ suitable to copy/paste into Game.ini
       option :growth, :type => :numeric, :banner => "GROWTH_RATE"
 
       def player
-        Generate.level_cmd("player_levels", options)
+        doc = Generate.level_cmd("player_levels", options)
+        puts doc if options[:verbose] || !options[:write]
       end
 
       desc "dino", "Generates custom dino levels Game.ini line"
@@ -57,7 +61,8 @@ suitable to copy/paste into Game.ini
       option :growth, :type => :numeric, :banner => "GROWTH_RATE"
 
       def dino
-        Generate.level_cmd("dino_levels", options)
+        doc = Generate.level_cmd("dino_levels", options)
+        puts doc if options[:verbose]
       end
     end # class Commands
 
@@ -72,7 +77,6 @@ suitable to copy/paste into Game.ini
         @growth = (options.has_key?(:growth) && options[:growth].to_f != 0) ?
             options[:growth].to_f : Math.log(@exp, @level)
         @dryrun = !!options[:dryrun]
-        @write = !!options[:write]
       end
 
       def calc_exp(level)
@@ -92,7 +96,7 @@ suitable to copy/paste into Game.ini
       def make_levels(type)
         type = type.to_s.capitalize
         max_experience = (calc_exp @level - 1) + 1
-        config = @configs.game
+        config = @configs.game.ini
 
         raise RuntimeError, "type must be either 'Player' or 'Dino'" unless ["Player", "Dino"].include?(type)
 
@@ -102,19 +106,15 @@ suitable to copy/paste into Game.ini
         config["/script/shootergame.shootergamemode"][max_exp_string] = max_experience
         config["/script/shootergame.shootergamemode"]["LevelExperienceRampOverrides"] = level_overrides
 
-        if @write
-          config.write unless @dryrun
-        end
-
         config
       end
 
       def player_levels
-        make_levels "Player"
+        make_levels( "Player")
       end
 
       def dino_levels
-        make_levels "Dino"
+        make_levels( "Dino")
       end
     end
   end

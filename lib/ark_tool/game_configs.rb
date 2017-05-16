@@ -1,14 +1,24 @@
-require "inifile"
+require "iniparse"
+require "ostruct"
 
 module ArkTools
   class GameConfigs
+    attr_reader :configs, :filenames
+
     def initialize(gamedir = ".")
       raise RuntimeError, "Directory does not exist #{gamedir}" unless Dir.exists?(gamedir)
 
-      @configs = {
-          game: IniFile.new(filename: File.expand_path("Game.ini", gamedir), encoding: "UTF-8"),
-          user: IniFile.new(filename: File.expand_path("GameUserSettings.ini", gamedir), encoding: "UTF-8"),
-      }
+      @configs = {}
+
+      %w(Game.ini GameUserSettings.ini).each do |filename|
+        key = File.basename(filename, ".ini").downcase.to_sym
+        filename = File.expand_path(filename, gamedir)
+
+        @configs[key] = OpenStruct.new(
+            :filename => filename,
+            :ini => File.exists?(filename) ? IniParse.open(filename) : IniParse.parse("[/script/shootergame.shootergamemode]")
+        )
+      end
     end
 
     def game
@@ -16,12 +26,13 @@ module ArkTools
     end
 
     def user
-      @configs[:user]
+      @configs[:gameusersettings]
     end
 
-    def write
+    def save
       @configs.keys.each do |key|
-        raise RuntimeError, "Unable to write to #{@configs[key].filename}" unless @configs[key].write
+        filename = @configs[key].filename
+        raise RuntimeError, "Unable to write to #{filename}" unless @configs[key].ini.save(filename)
       end
     end
 

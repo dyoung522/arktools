@@ -51,22 +51,22 @@ module ArkTools
         end
 
         it "returns a string containing a valid LevelExperienceRampOverrides=" do
-          expect(ArkGameLevels.new(level: 2).make_levels("Player").to_s).
-            to include("LevelExperienceRampOverrides = (ExperiencePointsForLevel[0]=0,ExperiencePointsForLevel[1]=1)")
+          expect(ArkGameLevels.new(level: 2).make_levels("Player").to_ini).
+            to match(/LevelExperienceRampOverrides\s?=\s?\(ExperiencePointsForLevel\[0\]=0,ExperiencePointsForLevel\[1\]=1\)/)
         end
       end
 
       context "#player_levels" do
         it "returns a string containing a valid OverrideMaxExperiencePointsPlayer" do
-          expect(ArkGameLevels.new(level: 1).player_levels).
-            to match /^OverrideMaxExperiencePointsPlayer=\d/
+          expect(ArkGameLevels.new(level: 1).player_levels.to_ini).
+            to match /^OverrideMaxExperiencePointsPlayer\s?=\s?\d/
         end
       end
 
       context "#dino_levels" do
         it "returns a string containing a valid OverrideMaxExperiencePointsDino" do
-          expect(ArkGameLevels.new(level: 1).dino_levels).
-            to match /^OverrideMaxExperiencePointsDino=\d/
+          expect(ArkGameLevels.new(level: 1).dino_levels.to_ini).
+            to match /^OverrideMaxExperiencePointsDino\s?=\s?\d/
         end
       end
     end

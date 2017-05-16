@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency "config", "~> 1.3"
   spec.add_dependency "thor", "~> 0.19"
   spec.add_dependency "io-console", "~> 0.4"
-  spec.add_dependency "inifile", "~> 3.0"
+  spec.add_dependency "iniparse", "~> 1.4"
 
   spec.add_development_dependency "bundler", "~> 1.14"
   spec.add_development_dependency "rake", "~> 10.0"
