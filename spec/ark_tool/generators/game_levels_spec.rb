@@ -11,12 +11,12 @@ module ArkTools
         expect(gli.growth.round(2)).to eq(3.0)
       end
 
-     it "responds to #calc_exp" do
+      it "responds to #calc_exp" do
         expect(gli).to respond_to(:calc_exp)
       end
 
       it "responds to #make_levels" do
-        expect(gli).to respond_to(:calc_exp)
+        expect(gli).to respond_to(:make_levels)
       end
 
       it "responds to #player_levels" do
@@ -48,6 +48,10 @@ module ArkTools
       context "#make_levels" do
         it "raises an error if not provided with valid input" do
           expect { gli.make_levels("foo") }.to raise_error RuntimeError
+        end
+
+        it "returns a valid IniParse::Document" do
+          expect(gli.make_levels("Player")).to be_an_instance_of(IniParse::Document)
         end
 
         it "returns a string containing a valid LevelExperienceRampOverrides=" do

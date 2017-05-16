@@ -14,11 +14,14 @@ module ArkTools
                max_level,
                (max_level ** gl.growth + 1).round.to_s.reverse.gsub(/...(?=.)/, '\&,').reverse,
                gl.growth
-        puts "Writing output to #{gl.configs.game.filename}" if opts[:write]
       end
 
       doc = gl.send(cmd)
-      doc.save(gl.configs.game.filename) if opts[:write]
+
+      if opts[:write]
+        doc.save(gl.configs.game.filename)
+        puts "Wrote output to #{gl.configs.game.filename}" if opts[:verbose]
+      end
 
       doc.to_ini
     end
@@ -41,7 +44,7 @@ suitable to copy/paste into Game.ini
 
       def player
         doc = Generate.level_cmd("player_levels", options)
-        puts doc if options[:verbose] || !options[:write]
+        puts doc if options[:verbose] && !options[:write]
       end
 
       desc "dino", "Generates custom dino levels Game.ini line"
@@ -62,7 +65,7 @@ suitable to copy/paste into Game.ini
 
       def dino
         doc = Generate.level_cmd("dino_levels", options)
-        puts doc if options[:verbose]
+        puts doc if options[:verbose] && !options[:write]
       end
     end # class Commands
 
@@ -97,14 +100,15 @@ suitable to copy/paste into Game.ini
         type = type.to_s.capitalize
         max_experience = (calc_exp @level - 1) + 1
         config = @configs.game.ini
+        base = config["/script/shootergame.shootergamemode"]
 
         raise RuntimeError, "type must be either 'Player' or 'Dino'" unless ["Player", "Dino"].include?(type)
 
         max_exp_string = "OverrideMaxExperiencePoints#{type}"
         level_overrides = _make_level_overrides
 
-        config["/script/shootergame.shootergamemode"][max_exp_string] = max_experience
-        config["/script/shootergame.shootergamemode"]["LevelExperienceRampOverrides"] = level_overrides
+        base[max_exp_string] = max_experience
+        base["LevelExperienceRampOverrides"] = level_overrides
 
         config
       end
