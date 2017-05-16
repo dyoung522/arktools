@@ -8,9 +8,24 @@ module ArkTools
   end
 
   class Commands < Thor
+    class_option :debug, :type => :boolean, :hidden => true
     class_option :verbose, :aliases => :v, :type => :boolean
 
+    class_option :gamedir,
+                 :type   => :string,
+                 :banner => "DIR",
+                 :desc   => "We'll attempt to write changes to the appropriate INI file in DIR"
+
+    class_option :write,
+                 :type => :boolean,
+                 :desc   => "Write changes directly to the appropriate INI file, default is to screen"
+
+    class_option :dryrun,
+                 :type => :boolean,
+                 :desc => "Fake any destructive changes (no not actually do them)"
+
     desc "version", "Show #{ArkTools::PROGRAM_NAME} version number"
+
     def version
       puts ArkTools::VERSION
     end
