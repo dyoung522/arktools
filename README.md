@@ -16,6 +16,14 @@ Install the gem from rubygems as you normally would. Once installed, you'll have
 
 `arktool help` should get you started. Subcommands also have their own help, so `arktool mods help` will give you information about the `mods` subcommand.
 
+### Global Options
+    --verbose : displays information to the screen
+    --gamedir : When provided, we'll read any Game.ini and GameUserSettings.ini
+                files in this directory.
+    --write   : Write output to Game.ini and/or GameUserSettings.ini file
+                Uses `gamedir` if provided, otherwise the current directory.
+
+
 ## Commands
 
 ### Mods
@@ -35,9 +43,11 @@ e.g.
 
 These commands will create customized level lists for your Game.ini. Please see `arktool levels help` for additional information.
 
-    --level  : the Maximum level for your server (required)
-    --exp    : The total experience to obtain max level (optional)
-    --growth : a customized logarithmic "growth rate" (very optional -- if you don't know what this means, you probably don't need it)
+    --level       : the Maximum level for your server (required)
+    --exp         : The total experience to obtain max level (optional)
+    --growth      : a customized logarithmic "growth rate" (very optional -- if you don't know what this means, you probably don't need it)
+    --engrams [N] : Creates customized engram point lines as well, using N as the total
+                    number of engrams to award (optional, default is 5000)
 
 ## Future Plans
 

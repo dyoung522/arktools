@@ -9,6 +9,7 @@ module ArkTools
         expect(gli).to be_an_instance_of ArkGameLevels
         expect(gli.exp).to eq(1000000)
         expect(gli.growth.round(2)).to eq(3.0)
+        expect(gli.engrams).to eq(5000)
       end
 
       it "responds to #calc_exp" do
@@ -19,12 +20,21 @@ module ArkTools
         expect(gli).to respond_to(:make_levels)
       end
 
+      it "responds to #make_engrams" do
+        expect(gli).to respond_to(:make_engrams)
+      end
+
       it "responds to #player_levels" do
         expect(gli).to respond_to(:player_levels)
       end
 
       it "responds to #dino_levels" do
         expect(gli).to respond_to(:dino_levels)
+      end
+
+      it "accepts a given engram count" do
+        gl = ArkGameLevels.new(level: 100, engrams: 1000)
+        expect(gl.engrams).to eq(1000)
       end
 
       it "accepts a given max exp" do
@@ -45,6 +55,18 @@ module ArkTools
         end
       end
 
+      context "#make_engrams" do
+
+        it "returns a valid IniParse::Document" do
+          expect(gli.make_engrams).to be_an_instance_of(IniParse::Document)
+        end
+
+        it "returns a string containing a valid OverridePlayerLevelEngramPoints=" do
+          expect(ArkGameLevels.new(level: 2, engrams: 2).make_engrams.to_ini).
+            to match(/OverridePlayerLevelEngramPoints\s?=\s?\d+\nOverridePlayerLevelEngramPoints\s?=\s?\d+\n$/)
+        end
+      end
+
       context "#make_levels" do
         it "raises an error if not provided with valid input" do
           expect { gli.make_levels("foo") }.to raise_error RuntimeError
@@ -56,21 +78,25 @@ module ArkTools
 
         it "returns a string containing a valid LevelExperienceRampOverrides=" do
           expect(ArkGameLevels.new(level: 2).make_levels("Player").to_ini).
-            to match(/LevelExperienceRampOverrides\s?=\s?\(ExperiencePointsForLevel\[0\]=0,ExperiencePointsForLevel\[1\]=1\)/)
+            to match(/LevelExperienceRampOverrides\s?=\s?\(ExperiencePointsForLevel\[0\]=\d+,ExperiencePointsForLevel\[1\]=\d+\)$/)
         end
       end
 
       context "#player_levels" do
         it "returns a string containing a valid OverrideMaxExperiencePointsPlayer" do
           expect(ArkGameLevels.new(level: 1).player_levels.to_ini).
-            to match /^OverrideMaxExperiencePointsPlayer\s?=\s?\d/
+            to match /^OverrideMaxExperiencePointsPlayer\s?=\s?\d+$/
         end
       end
 
       context "#dino_levels" do
         it "returns a string containing a valid OverrideMaxExperiencePointsDino" do
-          expect(ArkGameLevels.new(level: 1).dino_levels.to_ini).
-            to match /^OverrideMaxExperiencePointsDino\s?=\s?\d/
+          expect(ArkGameLevels.new(level: 1, force: true).dino_levels.to_ini).
+            to match /^OverrideMaxExperiencePointsDino\s?=\s?\d+$/
+        end
+
+        it "raises an error unless Player LevelExperienceRampOverrides exist" do
+          expect { ArkGameLevels.new(level: 1).dino_levels }.to raise_error RuntimeError
         end
       end
     end
